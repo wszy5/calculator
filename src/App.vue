@@ -1,10 +1,19 @@
 <template>
   <div id="app">
-    <div id="result">{{this.a}}{{this.b}}</div>
+    <div id="result">{{this.result}}</div>
+    <div id="operators">
+      <button class="operator" @click="clickHandler('+')">+</button>
+        <button class="operator" @click="clickHandler('-')">-</button>
+        <button class="operator" @click="clickHandler('*')">*</button>
+        <button class="operator" @click="clickHandler('/')">/</button>
+    </div>
     <div id="buttons">
         <button v-for="i in Array.from(Array(10).keys())" :key="i" class="sbtn" @click="passValue(i)">{{i}}</button>
+      
         <button class="sbtn" @click="clear()">CLEAR</button>
-        <button class="sbtn">=</button>
+        <button class="sbtn" @click="calculate()">=</button>
+        <button>{{this.temp1}}</button>
+        <button>{{this.temp2}}</button>
     </div>
   </div>
 </template>
@@ -15,29 +24,59 @@ export default {
   name: 'App',
   data(){
     return{
-      a:null,
-      b:null,
-      result:null
+      result:"",
+      temp1:"",
+      temp2:"",
+      operatorClicked:false,
+      z:""
     }
   },
   methods:{
     passValue(i){
-      if(this.a==null){
-        this.a = i;
-      }
-      else{
-        this.b = i;
+      if(this.result.length<=12){
+            if(this.operatorClicked){
+              this.temp2 += i.toString();
+            }
+            else{
+              this.result += i.toString();
+
+            }
       }
     },
-    show(){
-      alert(this.a);
-      alert(this.b);
-    },
+    
     clear(){
-      this.a = null,
-      this.b = null,
-      this.result = null
-    }
+      this.result = "";
+      this.temp1 = "";
+      this.temp2 = "";
+      this.operatorClicked = false;
+      this.z = "";
+    },
+    clickHandler(z){
+      this.temp1 = this.result;
+      this.operatorClicked = true;
+      this.result = "";
+      this.z = z;
+    },
+  calculate()
+  {
+    if(this.temp1!="" && this.temp2!=""){
+      switch (this.z) {
+        case '+':
+            this.result = (Number.parseInt(this.temp1)+Number.parseInt(this.temp2)).toString();
+          break;
+        case '-':
+            this.result = (Number.parseInt(this.temp1)-Number.parseInt(this.temp2)).toString();
+            break;
+        case '*':
+            this.result = (Number.parseInt(this.temp1)*Number.parseInt(this.temp2)).toString();
+        break;
+        case '/':
+            this.result = (Number.parseInt(this.temp1)/Number.parseInt(this.temp2)).toString();
+        break;
+      
+      }
+      }
+  }
   }
 }
 </script>
@@ -45,7 +84,7 @@ export default {
 <style>
 
 #result{
-  width: 200px;
+  width: 180px;
   height: 100px;
   background-color: antiquewhite;
   padding: 10px;
@@ -73,4 +112,21 @@ export default {
   height: 55px;
   margin: 5px;
 }
+
+#operators{
+  width: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 5px;
+}
+
+.operator{
+  background-color: brown;
+  color: aliceblue;
+  font-weight: bold;
+  width: 25px;
+  height: 25px;
+}
+
 </style>
