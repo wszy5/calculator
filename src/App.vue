@@ -2,10 +2,7 @@
   <div id="app">
     <div id="result">{{this.result}}</div>
     <div id="operators">
-      <button class="operator" @click="clickHandler('+')">+</button>
-        <button class="operator" @click="clickHandler('-')">-</button>
-        <button class="operator" @click="clickHandler('*')">*</button>
-        <button class="operator" @click="clickHandler('/')">/</button>
+      <button v-for="i in operations" :key="i" class="operator" @click="clickHandler(i)">{{i}}</button>
     </div>
     <div id="buttons">
         <button v-for="i in Array.from(Array(10).keys())" :key="i" class="sbtn" @click="passValue(i)">{{i}}</button>
@@ -24,6 +21,7 @@ export default {
   name: 'App',
   data(){
     return{
+      operations:['+','-','*','/'],
       result:"",
       temp1:"",
       temp2:"",
