@@ -43,7 +43,9 @@ export default {
 </script>
 
 <style>
-
+*{
+  background-color: aquamarine;
+}
 #result{
   width: 200px;
   height: 100px;
