@@ -1,16 +1,17 @@
 <template>
-  <div id="app">
-    <div id="result">{{this.result}}</div>
+  <div>
+    <div id="result">
+      <button id="clb" class="sbtn" @click="clear()">CLEAR</button>
+      <div id="math-res">{{this.result}}
+</div>
+      </div>
     <div id="operators">
-      <button v-for="i in operations" :key="i" class="operator" @click="clickHandler(i)">{{i}}</button>
+      <button v-for="i in operations" :key="i" class="sbtn" @click="clickHandler(i)">{{i}}</button>
     </div>
     <div id="buttons">
         <button v-for="i in Array.from(Array(10).keys())" :key="i" class="sbtn" @click="passValue(i)">{{i}}</button>
-      
-        <button class="sbtn" @click="clear()">CLEAR</button>
-        <button class="sbtn" @click="calculate()">=</button>
-        <button>{{this.temp1}}</button>
-        <button>{{this.temp2}}</button>
+        <button class="sbtn" @click="passValue('.')">{{'.'}}</button>
+      <button class="sbtn" @click="calculate()">=</button>
     </div>
   </div>
 </template>
@@ -26,7 +27,7 @@ export default {
       temp1:"",
       temp2:"",
       operatorClicked:false,
-      z:""
+      z:"",
     }
   },
   methods:{
@@ -34,6 +35,7 @@ export default {
       if(this.result.length<=12){
             if(this.operatorClicked){
               this.temp2 += i.toString();
+              this.result += this.temp2
             }
             else{
               this.result += i.toString();
@@ -50,9 +52,10 @@ export default {
       this.z = "";
     },
     clickHandler(z){
+      this.temp2 = "";
       this.temp1 = this.result;
       this.operatorClicked = true;
-      this.result = "";
+      this.result += z;
       this.z = z;
     },
   calculate()
@@ -60,16 +63,16 @@ export default {
     if(this.temp1!="" && this.temp2!=""){
       switch (this.z) {
         case '+':
-            this.result = (Number.parseInt(this.temp1)+Number.parseInt(this.temp2)).toString();
+            this.result = (Number.parseFloat(this.temp1)+Number.parseFloat(this.temp2)).toString();
           break;
         case '-':
-            this.result = (Number.parseInt(this.temp1)-Number.parseInt(this.temp2)).toString();
+            this.result = (Number.parseFloat(this.temp1)-Number.parseFloat(this.temp2)).toString();
             break;
         case '*':
-            this.result = (Number.parseInt(this.temp1)*Number.parseInt(this.temp2)).toString();
+            this.result = (Number.parseFloat(this.temp1)*Number.parseFloat(this.temp2)).toString();
         break;
         case '/':
-            this.result = (Number.parseInt(this.temp1)/Number.parseInt(this.temp2)).toString();
+            this.result = (Number.parseFloat(this.temp1)/Number.parseFloat(this.temp2)).toString();
         break;
       
       }
@@ -80,45 +83,73 @@ export default {
 </script>
 
 <style>
-*{
-  background-color: aquamarine;
-}
-#result{
-  width: 180px;
-  height: 100px;
-  background-color: antiquewhite;
-  padding: 10px;
+body{
+  margin-top: 100px;
+  height: 100%;
+  background-image: url('https://cdn.pixabay.com/photo/2017/07/27/02/23/space-2543838_1280.jpg');
+  background-repeat: no-repeat;
+  background-size: auto;
   display: flex;
   justify-content: center;
+}
+#app{
+  display: flex;
+  flex-direction: column;
+  
+}
+#result{
+  width: 300px;
+  height: 100px;
+  background-color: black;
+  opacity: 0.67;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
   align-items: center;
   border: 1px solid black;
   font-size: 32px;
+  color: white;
 }
 
 #buttons{
-  width: 200px;
+  width: 300px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.67;
 }
 .sbtn{
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 55px;
-  height: 55px;
+  width: 65px;
+  height: 65px;
   margin: 5px;
+    font-size: 3.2em;
+
 }
 
 #operators{
-  width: 200px;
+  width: 300px;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
-  margin-top: 5px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0.67;
+}
+#operators button{
+  background-color: green;
+  color: white;
+  border: none;
+  font-size: 3.2em;
 }
 
 .operator{
@@ -128,5 +159,16 @@ export default {
   width: 25px;
   height: 25px;
 }
-
+#clb{
+  width: 40px;
+  height: 20px;
+  font-size: 10px;
+  align-self: flex-start;
+  background-color: red;
+  border: none;
+  color: aliceblue;
+  opacity: 0.5;
+  justify-self: flex-end;
+  margin-right: 230px;
+  }
 </style>
